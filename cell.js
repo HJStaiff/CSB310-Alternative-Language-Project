@@ -35,11 +35,11 @@ class Cell {
         return String(this.oem + ", " +
             this.model + ", " +
             this.launch_announced + ", " +
-            this.launch_statu + ", " +
+            this.launch_status + ", " +
             this.body_dimensions + ", " +
             this.body_weight + ", " +
             this.body_sim + ", " +
-            this.display_typ + ", " +
+            this.display_type + ", " +
             this.display_size + ", " +
             this.display_resolution + ", " +
             this.features_sensors + ", " +
