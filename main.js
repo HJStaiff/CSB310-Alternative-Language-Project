@@ -18,18 +18,21 @@ const file = fs.readFileSync(filePath, 'utf8', (err, data) => {
 console.log("Parsing cellphone data...\n");
 var fileLines = file.split('\n');
 // Skip header line.
-fileLines.shift(); 
+fileLines.shift();
+// Remove duplicate rows.
+var fileSet = new Set(fileLines);
 
 // Create Cell objects.
 var cells = [];
-for (let i = 0; i < fileLines.length; i++) {
-    cells[i] = cleanCellData(fileLines[i]);
+for (let value of fileSet) {
+    cells.push(cleanCellData(value));
 }
 
 // Display data.
 for (let i = 0; i < cells.length; i++) {
     console.log(cells[i].toString() + '\n');
 }
+console.log(cells.length);
 
 /*
 * Parses and cleans all data in a line.
@@ -63,7 +66,7 @@ function cleanCellData(line){
 
     // [3] launch_status
     var launch_status = String(cellData[3]).trim();
-    var launch_status_pattern = /\b\d{4}\b/; // Regex: four digit number
+    var launch_status_pattern = /\b\d{4}\b/; // Regex: four digit year
     if (launch_status.includes("Available") && launch_status_pattern.test(launch_status)){
         launch_status = "Available. Released " + launch_status.match(launch_status_pattern);
     }
@@ -131,6 +134,9 @@ function cleanCellData(line){
     var platform_os = String(cellData[11].match(/^[^,]*/)).trim(); // Regex: Keep everything up to first comma
     if (platform_os == "" || platform_os == '-' || !isNaN(platform_os)){ // Numbers like 12 or 20.1 not allowed.
         platform_os = null;
+    }
+    else if (platform_os.indexOf('"') == 0 && platform_os.charAt(platform_os.length) != '"'){ // Add quote to end if it was cut off.
+        platform_os += "\"";
     }
 
 
