@@ -5,10 +5,8 @@ const cellParser = require('./cellParser');
 const filePath = './resources/cells.csv'
 const parser = new cellParser(filePath);
 
-// Display data.
-for (let i = 0; i < parser.cells.length; i++) {
-    console.log(parser.cells[i].toString() + '\n');
-}
-
-console.log(parser.cells.length);
+// Output
+console.log("Average phone weight: " + parser.getAvgWeight() + "\n");
+console.log("Oem with highest average phone weight: " + parser.getHighestAvgOemWeight() + "\n");
+console.log("Average display size: " + parser.getAvgSize() + "\n");
 

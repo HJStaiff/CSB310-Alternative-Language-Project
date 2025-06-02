@@ -12,6 +12,108 @@ class CellParser {
     }
 
     /*
+    * Add a new Cell object to the array given data.
+    */
+    addCell(oem, 
+                model, 
+                launch_announced, 
+                launch_status,
+                body_dimensions, 
+                body_weight, 
+                body_sim, 
+                display_type,
+                display_size, 
+                display_resolution, 
+                features_sensors, 
+                platform_os) {
+        var cellObj = new cell(oem, 
+                model, 
+                launch_announced, 
+                launch_status,
+                body_dimensions, 
+                body_weight, 
+                body_sim, 
+                display_type,
+                display_size, 
+                display_resolution, 
+                features_sensors, 
+                platform_os);
+
+        this.cells.push(cellObj);
+    }
+
+    /*
+    * Calculates and returns the average of all non null weights.
+    */
+    getAvgWeight(){
+        var totalWeight = 0;
+        var totalCells = 0;
+        for (let cell of this.cells){
+            if (cell.body_weight != null){
+                totalWeight += Number(parseFloat(cell.body_weight));
+                totalCells++;
+            }
+        }
+        return (totalWeight / totalCells).toFixed(2) + " grams";
+    }
+
+    /*
+    * Returns a string containing the oem with the highest average cellphone body weight.
+    */
+    getHighestAvgOemWeight(){
+        var oemWeightHashMap = new Map(); // Key: Oem string, Value: Float total weight of Oem phones (non null weight)
+        var oemCountHashMap = new Map(); // Key: Oem string, Value: Int total count of Oem phones (non null weight)
+
+        // Add total weight and count of oem phones.
+        for (let i in this.cells){
+            let oem = this.cells[i].oem;
+            let weight = Number(parseFloat(this.cells[i].body_weight))
+            if (weight != null && !isNaN(weight)){ // Exclude null weight phones from calculation.
+                if (oemWeightHashMap.has(oem)){ // If oem exists in map increment its values.
+                    oemWeightHashMap.set(oem, oemWeightHashMap.get(oem) + weight);
+                    oemCountHashMap.set(oem, oemCountHashMap.get(oem) + 1);
+                }
+                else{ // If oem is new to map insert new value.
+                    oemWeightHashMap.set(oem, weight);
+                    oemCountHashMap.set(oem, 1);
+                }
+            }
+        }
+
+        // Calculate average weights.
+        var oemAvgHashMap = new Map(); // Key: Oem string, Value: Float average of Oem phone non null weights.
+        for (let oem of oemWeightHashMap.keys()){
+            oemAvgHashMap.set(oem, oemWeightHashMap.get(oem) / oemCountHashMap.get(oem));
+        }
+
+        // Find highest of the averages.
+        let maxOem = "Oem";
+        let maxAvg = 0;
+        for (let oem of oemAvgHashMap.keys()){
+            if (oemAvgHashMap.get(oem) > maxAvg) {
+                maxOem = oem;
+                maxAvg = oemAvgHashMap.get(oem);
+            }
+        }
+        return maxOem + ", " + maxAvg.toFixed(2) + " grams";
+    }
+
+    /*
+    * Calculates and returns the display size of all non null sizes.
+    */
+    getAvgSize(){
+        var totalSize = 0;
+        var totalCells = 0;
+        for (let cell of this.cells){
+            if (cell.display_size != null){
+                totalSize += Number(parseFloat(cell.display_size));
+                totalCells++;
+            }
+        }
+        return (totalSize / totalCells).toFixed(2) + " inches";
+    }
+    
+    /*
     * Returns an array of Cell objects containing data from file.
     */
     static parseCells(filePath) {
@@ -34,10 +136,12 @@ class CellParser {
         var fileSet = new Set(fileLines);
 
         // Create Cell objects.
+        console.log("Indexing cellphone data...\n");
         var cells = [];
         for (let value of fileSet) {
             cells.push(CellParser.cleanCellData(value));
         }
+        console.log("Successfuly parsed cellphone data.\n");
         return cells;
     }
 
