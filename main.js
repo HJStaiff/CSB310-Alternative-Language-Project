@@ -3,7 +3,7 @@ const fs = require('fs');
 const cell = require('./cell');
 
 // Read in CSV data
-const filePath = './resources/test.csv'
+const filePath = './resources/cells.csv'
 /*
 * readFileSync blocks until the file is finished reading.
 * In this case cells.csv is small, so there is no noticeable delay.
