@@ -31,6 +31,9 @@ class Cell {
             this.platform_os = platform_os;
           }
     
+    /*
+    * Returns a string with all cell information. 
+    */
     toString(){
         return String(this.oem + ", " +
             this.model + ", " +
