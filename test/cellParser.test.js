@@ -1,5 +1,5 @@
-const cellParser = require('./cellParser');
-const Cell = require('./cell');
+const cellParser = require('../main/cellParser');
+const Cell = require('../main/cell');
 
 // Run "npm test" in terminal.
 

@@ -1,4 +1,4 @@
-const Cell = require('./cell');
+const Cell = require('../main/cell');
 
 test('Test toString output', () => {
     let testCell = new Cell("Honor", 
