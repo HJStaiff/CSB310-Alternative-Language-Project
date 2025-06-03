@@ -99,6 +99,105 @@ class CellParser {
     }
 
     /*
+    * Returns a string of the phones which were announced in one year and released in another.
+    */
+    getReleasedYearDifference(){
+        var diffCells = [];
+        for (let i in this.cells) {
+            let launch_announced = this.cells[i].launch_announced;
+            let launch_status = this.cells[i].launch_status;
+
+            if (launch_announced != null && launch_status != null){
+                if (launch_status.includes("Available")){ 
+                    launch_status = launch_status.match(/(\d+)/)[0];// Parse for year in status.
+                    if (launch_announced != launch_status){
+                        diffCells.push(this.cells[i]);
+                    }
+                }
+            }
+        }
+
+        if (diffCells.length == 0) {
+            return "None";
+        }
+        else {
+            let output = "";
+            for (let i = 0; i < diffCells.length; i++) {
+                output += (diffCells[i].oem + ", " + diffCells[i].model + "\n");
+            }
+            return output;
+        }
+    }
+
+    /*
+    * Returns a string of the phones with only one feature sensor.
+    */
+    getOneFeature(){
+        var featureCells = [];
+        for (let i in this.cells) {
+            let features_sensors = this.cells[i].features_sensors;
+
+            if (features_sensors != null){
+                features_sensors = features_sensors.replace(/"/g, ''); // Remove quotes.
+                var cellFeatures = features_sensors.split(','); // Split at comma.
+                if (cellFeatures.length == 1){ // Check if phone has only one feature.
+                    featureCells.push(this.cells[i]);
+                }
+            }
+        }
+
+        if (featureCells.length == 0) {
+            return "None";
+        }
+        else {
+            let output = "";
+
+            /*
+            // Output oem, name, and features for testing.
+            for (let i = 0; i < featureCells.length; i++) {
+                output += (featureCells[i].oem + ", " + featureCells[i].model + ", " + featureCells[i].features_sensors + "\n");
+            }
+            */
+
+            output = featureCells.length;
+            return output;
+        }
+    }
+
+    /*
+    * Returns a string of the year with the most launches later than specified year.
+    */
+    getMostLaunches(year){
+        var yearCount = new Map();
+        for (let cell of this.cells) {
+            let launch_status = cell.launch_status;
+            if (launch_status != null){
+                if (launch_status.includes("Available")){
+                    launch_status = launch_status.match(/(\d+)/)[0];// Parse for year in status.
+                    if (launch_status > year){
+                        if (yearCount.has(launch_status)){
+                            yearCount.set(launch_status, yearCount.get(launch_status) + 1)
+                        }
+                        else{
+                            yearCount.set(launch_status, 1)
+                        }
+                    }
+                }
+            }
+        }
+
+        let maxYear = year;
+        let maxCount = 0;
+        for (let year of yearCount.keys()) {
+            if (maxCount < yearCount.get(year)){
+                maxYear = year;
+                maxCount = yearCount.get(year);
+            }
+        }
+        return String(maxYear) + ", " + String(maxCount);
+    }
+
+    /*
     * Calculates and returns the display size of all non null sizes.
     */
     getAvgSize(){
