@@ -229,6 +229,9 @@ class CellParser {
         // Regex: Split CSV file by newline characters
         console.log("Parsing cellphone data...\n");
         var fileLines = file.split('\n');
+        if (fileLines.length <= 1){
+            throw new Error("Invalid file.");
+        }
         // Skip header line.
         fileLines.shift();
         // Remove duplicate rows.
@@ -238,7 +241,10 @@ class CellParser {
         console.log("Indexing cellphone data...\n");
         var cells = [];
         for (let value of fileSet) {
-            cells.push(CellParser.cleanCellData(value));
+            // Skip empty lines.
+            if (value.trim().length != 0){
+                cells.push(CellParser.cleanCellData(value));
+            }
         }
         console.log("Successfuly parsed cellphone data.\n");
         return cells;
@@ -300,7 +306,7 @@ class CellParser {
         var body_weight = String(cellData[5]).trim();
         var body_weight_pattern = /\d+\s?g/; // Regex number followed by 'g' representing grams, optional space between
         if (body_weight_pattern.test(body_weight)) {
-            body_weight = String(body_weight.match(body_weight_pattern));
+            body_weight = parseInt(body_weight.match(body_weight_pattern)[0]);
         }
         else {
             body_weight = null;

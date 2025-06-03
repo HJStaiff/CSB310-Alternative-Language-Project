@@ -1,0 +1,23 @@
+{
+  "name": "csb310-alternative-language-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HJStaiff/CSB310-Alternative-Language-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HJStaiff/CSB310-Alternative-Language-Project/issues"
+  },
+  "homepage": "https://github.com/HJStaiff/CSB310-Alternative-Language-Project#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

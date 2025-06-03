@@ -40,7 +40,7 @@ class Cell {
             this.launch_announced + ", " +
             this.launch_status + ", " +
             this.body_dimensions + ", " +
-            this.body_weight + ", " +
+            this.body_weight + " g, " +
             this.body_sim + ", " +
             this.display_type + ", " +
             this.display_size + ", " +
