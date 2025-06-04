@@ -8,7 +8,9 @@ This project uses the FileReader to read the CSV files. The FileReader returns a
 
 ## Dependencies
 Nodejs runtime environment https://nodejs.org/en
+
 Jest (Unit tests): https://jestjs.io/
+
 Name: Jest
 Id: Orta.vscode-jest
 Description: Use Facebook's Jest With Pleasure.
