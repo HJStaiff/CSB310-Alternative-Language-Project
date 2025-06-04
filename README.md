@@ -31,3 +31,4 @@ Xiaomi, Redmi K30 5G
 2019: 247 phones
 
 ![Output screenshot](/img/Output.PNG) 
+![TestOutput screenshot](/img/TestOutput.PNG) 
